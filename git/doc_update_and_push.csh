@@ -9,6 +9,7 @@ set DATE=`date "+%Y%m%d%H%M%S"`
 set TEE_CMD="tee -a"
 set LOCK="${SOURCE_DIR}/doc-repo-lock"
 set DST_MAIL="robot@hardenedbsd.org"
+set CC_MAIL="aberg010@my.hennepintech.edu "
 set ENABLE_MAIL="YES"
 
 setenv PATH "${PATH}:/usr/local/bin"
@@ -18,7 +19,7 @@ test -d $LOGS || mkdir -p $LOGS
 if ( -e ${LOCK} ) then
 	echo "update error at ${DATE} - lock exists"
 	if ( ${ENABLE_MAIL} == "YES" ) then
-		echo "update error at ${DATE} - lock exists" | mail -s "hbsd - lock error" ${DST_MAIL}
+		echo "update error at ${DATE} - lock exists" | mail -c ${CC_MAIL} -s "hbsd - lock error" ${DST_MAIL}
 	endif
 	exit 1
 endif
@@ -36,7 +37,7 @@ endif
 if ( ! -d ${SOURCE} ) then
 	echo "update error at ${DATE} - failed to check out doc repository"
 	if ( ${ENABLE_MAIL} == "YES" ) then
-		echo "update error at ${DATE} - failed to check out doc repository" | mail -s "hbsd - lock error" ${DST_MAIL}
+		echo "update error at ${DATE} - failed to check out doc repository" | mail -c ${CC_MAIL} -s "hbsd - lock error" ${DST_MAIL}
 	endif
 	exit 1
 endif
@@ -126,7 +127,7 @@ handle_err:
 	echo "==== END: ${branch} ====" |& ${TEE_CMD} ${LOGS}/${_branch}-${DATE}.log
 	if ( ${ENABLE_MAIL} == "YES" ) then
 		cat ${LOGS}/${_branch}-${DATE}.log | \
-		    mail -s "${_mail_subject_prefix} ${_branch}-${DATE}.log" ${DST_MAIL}
+		    mail -c ${CC_MAIL} -s "${_mail_subject_prefix} ${_branch}-${DATE}.log" ${DST_MAIL}
 	endif
 	echo
 end
