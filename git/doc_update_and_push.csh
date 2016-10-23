@@ -2,7 +2,7 @@
 
 set OPWD=`pwd`
 set SOURCE_DIR="/usr/data/source/git/opBSD"
-set BRANCHES="master:freebsd/master"
+set BRANCHES="master:freebsd/master hardenedbsd/master:master"
 set SOURCE="$SOURCE_DIR/hardenedbsd-doc.git"
 set LOGS="$HOME/log/hardenedbsd-doc"
 set DATE=`date "+%Y%m%d%H%M%S"`
