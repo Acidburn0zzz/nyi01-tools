@@ -9,6 +9,8 @@ set DATE=`date "+%Y%m%d%H%M%S"`
 set TEE_CMD="tee -a"
 set LOCK="${SOURCE_DIR}/ports-repo-lock"
 set DST_MAIL="robot@hardenedbsd.org"
+# CC_LIST members are the hardenedbsd-ports groups members
+set CC_LIST="trentnthompson@gmail.com johannes@perceivon.net bernard.spil@hardenedbsd.org shawn.webb@hardenedbsd.org"
 set ENABLE_MAIL="YES"
 
 setenv PATH "${PATH}:/usr/local/bin"
@@ -125,8 +127,12 @@ handle_err:
 
 	echo "==== END: ${branch} ====" |& ${TEE_CMD} ${LOGS}/${_branch}-${DATE}.log
 	if ( ${ENABLE_MAIL} == "YES" ) then
+		set CC_MEMBERS
+		foreach i ( ${CC_LIST} )
+			set CC_MEMBERS="${CC_MEMBERS} -c ${i}"
+		end
 		cat ${LOGS}/${_branch}-${DATE}.log | \
-		    mail -s "${_mail_subject_prefix} ${_branch}-${DATE}.log" ${DST_MAIL}
+		    mail ${CC_MEMBERS} -s "${_mail_subject_prefix} ${_branch}-${DATE}.log" ${DST_MAIL}
 	endif
 	echo
 end
