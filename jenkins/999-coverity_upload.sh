@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-TAR_NAME=/tmp/HardenedBSD.tgz
+TAR_NAME=/tmp/HardenedBSD.tbz
 
 WORKSPACE=$1
 DESC=$2
 COVERITY_TOKEN=`cat /jenkins/scripts/.coverity_token`
 COVERITY_MAIL=`cat /jenkins/scripts/.coverity_mail`
 
-echo ${WORKSPACE} ${DESC}
+echo "wd:${WORKSPACE} desc:${DESC}"
 
 if [ ! -d ${WORKSPACE} ]
 then
@@ -17,7 +17,9 @@ fi
 
 cd ${WORKSPACE}
 
-tar czvf ${TAR_NAME} cov-int
+tail cov-int/build-log.txt
+
+tar cjvf ${TAR_NAME} cov-int
 
 curl --form token=${COVERITY_TOKEN} \
 	--form email=${COVERITY_MAIL} \
@@ -39,5 +41,5 @@ then
 		rm -f ${TAR_NAME}
 	fi
 else
-	return ${_ret}
+	exit ${_ret}
 fi
