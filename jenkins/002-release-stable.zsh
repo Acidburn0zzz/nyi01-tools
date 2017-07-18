@@ -82,7 +82,7 @@ copy_release() {
 	    cp -v ${file} ${_dst_file}
 	    sha256 ${_dst_file} >> ${_ISO_DIR}/CHECKSUMS.SHA256
 	    sha512 ${_dst_file} >> ${_ISO_DIR}/CHECKSUMS.SHA512
-	    gpg --sign -a --detach -u 819B11A26FFD188D -o ${_ISO_DIR}/$(basename ${_dst_file}).asc ${_dst_file}
+	    gpg --sign -a --detach -u BB53388D3BD9892815CB9E30819B11A26FFD188D -o ${_ISO_DIR}/$(basename ${_dst_file}).asc ${_dst_file}
 	done
 	#
 	# archives - aka part of installers
@@ -90,7 +90,7 @@ copy_release() {
 	    cp -v ${file} ${_TAR_DIR}
 	    sha256 ${file} >> ${_TAR_DIR}/CHECKSUMS.SHA256
 	    sha512 ${file} >> ${_TAR_DIR}/CHECKSUMS.SHA512
-	    gpg --sign -a --detach -u 819B11A26FFD188D -o ${_TAR_DIR}/$(basename ${file}).asc ${file}
+	    gpg --sign -a --detach -u BB53388D3BD9892815CB9E30819B11A26FFD188D -o ${_TAR_DIR}/$(basename ${file}).asc ${file}
 	done
 }
 
