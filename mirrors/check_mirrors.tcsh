@@ -5,7 +5,7 @@ set MAIN_DISTS="${MAIN}/"
 set MAIN_ISOS="${MAIN}/ISO-IMAGES/"
 set date_now=`date "+%Y%m%d%H%M%S"`
 set TEE_CMD="tee -a"
-set DST_MAIL="robot@hardenedbsd.org"
+set DST_MAIL="mirrors@hardenedbsd.org"
 set ENABLE_MAIL="YES"
 setenv REPLYTO "robot@hardenedbsd.org"
 set LOGS="/tmp/mirror-check/${date_now}"
