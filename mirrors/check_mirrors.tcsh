@@ -42,7 +42,7 @@ foreach mirror ( ${mirrors} )
 		${TEE_CMD} ${LOGS}/${mirror}_${date_now}.log
 	set isos=$?
 
-	if ( ${dists} || ${isos} ) then
+	if ( ${dists} != 0 || ${isos} != 0 ) then
 		echo "===== Finished checking of ${mirror} mirror: OUT-OF-SYNC" |& \
 			${TEE_CMD} ${LOGS}/${mirror}_${date_now}.log
 		set _mail_subject_prefix="[OUT-OF-SYNC]"
