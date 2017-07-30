@@ -28,6 +28,10 @@ while getopts 't:' o; do
 			target="TARGET=amd64 TARGET_ARCH=amd64"
 			targetdir="amd64"
 			;;
+		    arm64)
+			target="TARGET=arm64 TARGET_ARCH=aarch64"
+			targetdir="arm64"
+			;;
                     i386)
                         target="TARGET=i386 TARGET_ARCH=i386"
                         targetdir="i386"
