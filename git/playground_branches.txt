@@ -1,12 +1,9 @@
-# branches from HardenedBSD/HardenedBSD.git repo
 freebsd/10-stable/master:hardenedbsd/freebsd/10-stable/master
 hardened/10-stable/master:hardenedbsd/hardened/10-stable/master
 freebsd/11-stable/master:hardenedbsd/freebsd/11-stable/master
 hardened/11-stable/master:hardenedbsd/hardened/11-stable/master
 freebsd/current/master:hardenedbsd/freebsd/current/master
 hardened/current/master:hardenedbsd/hardened/current/master
-# branches from FreeBSDDesktop repo
-deskbsd/current/drm-next:drm-next/drm-next
-# branches in HardenedBSD-playground repo
+fbsdbasegraphics/current/drm-next:drm-next/drm-next
 hardened/current/drm-next:hardenedbsd/hardened/current/master
 hardened/current/drm-next:drm-next/drm-next

@@ -5,8 +5,8 @@ setenv REPLYTO "robot+playground@hardenedbsd.org"
 
 set OPWD=`pwd`
 set SOURCE_DIR="/usr/data/source/git/opBSD"
-set BRANCHES=`cat $SOURCE_DIR/ny01-tools/git/playground_branches.txt`
-set SOURCE="$SOURCE_DIR/hardenedBSD-playground.git"
+set BRANCHES=`cat $SOURCE_DIR/nyi01-tools.git/git/playground_branches.txt`
+set SOURCE="$SOURCE_DIR/hardenedbsd-playground.git"
 set LOGS="$HOME/log/playground"
 set DATE=`date "+%Y%m%d%H%M%S"`
 set TEE_CMD="tee -a"
@@ -33,23 +33,32 @@ set OHEAD=`git branch | awk '/\*/{print $2}'`
 git stash
 
 (git fetch origin) |& ${TEE_CMD} ${LOGS}/freebsd-fetch-${DATE}.log
-(git fetch freebsd) |& ${TEE_CMD} ${LOGS}/freebsd-fetch-${DATE}.log
+(git fetch hardenedbsd) |& ${TEE_CMD} ${LOGS}/freebsd-fetch-${DATE}.log
+(git fetch drm-next) |& ${TEE_CMD} ${LOGS}/freebsd-fetch-${DATE}.log
 # pushing the freshly fetched FreeBSD commit notes to hardenedbsd repo
 # these contains the svn revision ids
 (git push origin refs/notes/commits) |& ${TEE_CMD} ${LOGS}/freebsd-fetch-${DATE}.log
 
-foreach branch ( ${BRANCHES} )
+foreach line ( ${BRANCHES} )
 	set err=0
 	set _mail_subject_prefix=""
 
-	set remote_branches=`echo ${branch} | cut -d ':' -f 2 | tr '+' ' '`
-	set branch=`echo ${branch} | cut -d ':' -f 1`
+	set remote_branches=`echo ${line} | cut -d ':' -f 2 | tr '+' ' '`
+	set branch=`echo ${line} | cut -d ':' -f 1 | tr -d '#'`
 	set _branch=`echo ${branch} | tr '/' ':'`
 
 	echo "==== BEGIN: ${branch} ====" |& ${TEE_CMD} ${LOGS}/${_branch}-${DATE}.log
 
 	echo "current branch: ${branch}" |& ${TEE_CMD} ${LOGS}/${_branch}-${DATE}.log
 	echo "mergeable branch: ${remote_branches}" |& ${TEE_CMD} ${LOGS}/${_branch}-${DATE}.log
+
+	# Skip lines beginning with '#'
+	echo ${line} | grep -Eq '^#.*'
+	if ( $? == 0 ) then
+		set _mail_subject_prefix="[SKIP]"
+		echo "==== SKIP: ${line} ====" |& ${TEE_CMD} ${LOGS}/${_branch}-${DATE}.log
+		goto handle_err
+	endif
 
 	echo "==== change branch ====" |& ${TEE_CMD} ${LOGS}/${_branch}-${DATE}.log
 	# change branch
