@@ -14,6 +14,8 @@ set LOCK="${SOURCE_DIR}/playground-repo-lock"
 set DST_MAIL="robot+playground@hardenedbsd.org"
 set ENABLE_MAIL="YES"
 
+setenv PATH "${PATH}:/usr/local/bin"
+
 test -d $LOGS || mkdir -p $LOGS
 
 if ( -e ${LOCK} ) then
