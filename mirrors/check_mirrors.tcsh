@@ -13,7 +13,7 @@ set MAIL_FROM_EVERYTHING=0
 
 test -d $LOGS || mkdir -p $LOGS
 
-set mirrors="de-01.installer.hardenedbsd.org fr-01.installer.hardenedbsd.org pub.allbsd.org"
+set mirrors="de-01.installer.hardenedbsd.org dk-01.installer.hardenedbsd.org fr-01.installer.hardenedbsd.org pub.allbsd.org"
 
 fetch -o - "${MAIN_DISTS}" | sed -n 's#.*\(hardenedbsd-.*\)\/<.*#\1#gp' | sort > /tmp/hbsd-main-dists-${date_now}.txt
 fetch -o - "${MAIN_ISOS}" | sed -n 's#.*\(hardenedbsd-.*\)\/<.*#\1#gp' | sort > /tmp/hbsd-main-isos-${date_now}.txt
