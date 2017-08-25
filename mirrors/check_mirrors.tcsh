@@ -13,7 +13,7 @@ set MAIL_FROM_EVERYTHING=0
 
 test -d $LOGS || mkdir -p $LOGS
 
-set mirrors="de-01.installer.hardenedbsd.org dk-01.installer.hardenedbsd.org fr-01.installer.hardenedbsd.org pub.allbsd.org"
+set mirrors="ca-01.installer.hardenedbsd.org de-01.installer.hardenedbsd.org dk-01.installer.hardenedbsd.org fr-01.installer.hardenedbsd.org fourdots.com pub.allbsd.org"
 
 fetch -o - "${MAIN_DISTS}" | sed -n 's#.*\(hardenedbsd-.*\)\/<.*#\1#gp' | sort > /tmp/hbsd-main-dists-${date_now}.txt
 fetch -o - "${MAIN_ISOS}" | sed -n 's#.*\(hardenedbsd-.*\)\/<.*#\1#gp' | sort > /tmp/hbsd-main-isos-${date_now}.txt
@@ -54,6 +54,9 @@ foreach mirror ( ${mirrors} )
 			set _mail_subject_prefix="[OK]"
 			set _send_mail=1
 		endif
+
+		unlink /tmp/hbsd-${mirror}-dists-${date_now}.txt
+		unlink /tmp/hbsd-${mirror}-isos-${date_now}.txt
 	endif
 
 	if ( ${_send_mail} == 1 ) then
@@ -61,3 +64,8 @@ foreach mirror ( ${mirrors} )
                     mail -s "${_mail_subject_prefix} ${mirror} @${date_now}" ${DST_MAIL}
 	endif
 end
+
+if ( ${dists} == 0 && ${isos} == 0 ) then
+	unlink /tmp/hbsd-main-dists-${date_now}.txt
+	unlink /tmp/hbsd-main-isos-${date_now}.txt
+endif
