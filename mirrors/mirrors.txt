@@ -1,0 +1,6 @@
+ca-01.installer.hardenedbsd.org
+de-01.installer.hardenedbsd.org
+dk-01.installer.hardenedbsd.org
+fr-01.installer.hardenedbsd.org
+fourdots.com
+pub.allbsd.org

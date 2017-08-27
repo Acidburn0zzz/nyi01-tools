@@ -10,10 +10,11 @@ set ENABLE_MAIL="YES"
 setenv REPLYTO "robot@hardenedbsd.org"
 set LOGS="/tmp/mirror-check/${date_now}"
 set MAIL_FROM_EVERYTHING=0
+set MIRRORS="`dirname ${0}`/mirrors.txt"
 
 test -d $LOGS || mkdir -p $LOGS
 
-set mirrors="ca-01.installer.hardenedbsd.org de-01.installer.hardenedbsd.org dk-01.installer.hardenedbsd.org fr-01.installer.hardenedbsd.org fourdots.com pub.allbsd.org"
+set mirrors="`cat ${MIRRORS}`"
 
 fetch -o - "${MAIN_DISTS}" | sed -n 's#.*\(hardenedbsd-.*\)\/<.*#\1#gp' | sort > /tmp/hbsd-main-dists-${date_now}.txt
 fetch -o - "${MAIN_ISOS}" | sed -n 's#.*\(hardenedbsd-.*\)\/<.*#\1#gp' | sort > /tmp/hbsd-main-isos-${date_now}.txt
