@@ -4,3 +4,4 @@ dk-01.installer.hardenedbsd.org
 fr-01.installer.hardenedbsd.org
 fourdots.com
 pub.allbsd.org
+us-01.installer.hardenedbsd.org
