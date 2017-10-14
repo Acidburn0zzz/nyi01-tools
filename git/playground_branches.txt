@@ -5,5 +5,3 @@ hardened/11-stable/master:hardenedbsd/hardened/11-stable/master
 freebsd/current/master:hardenedbsd/freebsd/current/master
 hardened/current/master:hardenedbsd/hardened/current/master
 fbsdbasegraphics/current/drm-next:drm-next/drm-next
-hardened/current/drm-next:hardenedbsd/hardened/current/master
-hardened/current/drm-next:drm-next/drm-next
