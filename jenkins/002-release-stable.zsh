@@ -25,18 +25,22 @@ while getopts 't:' o; do
             if [ ! "${OPTARG}" = "${target}" ]; then
                 case "${OPTARG}" in
 		    amd64)
+			reltarget="amd64.amd64"
 			target="TARGET=amd64 TARGET_ARCH=amd64"
 			targetdir="amd64"
 			;;
 		    arm64)
+			reltarget="arm64.aarch64"
 			target="TARGET=arm64 TARGET_ARCH=aarch64"
 			targetdir="arm64"
 			;;
                     i386)
+			reltarget="i386.i386"
                         target="TARGET=i386 TARGET_ARCH=i386"
                         targetdir="i386"
                         ;;
 		    opbsd-fortify-amd64)
+			reltarget="amd64.amd64"
 			target="TARGET=amd64 TARGET_ARCH=amd64"
 			targetdir="amd64"
 			kernel="GENERIC"
@@ -80,8 +84,17 @@ copy_release() {
 	    mkdir -p ${_ISO_DIR}
 	fi
 
+	reldir="/usr/obj/jenkins/workspace/${JOB_NAME}/usr/src/release"
+	if [ ! -d ${reldir} ]; then
+		reldir="/usr/obj/jenkins/workspace/${JOB_NAME}/usr/src/${reltarget}/release"
+		if [ ! -d ${reldir} ]; then
+			echo "[-] Release directory ${reldir} not found!"
+			return 1
+		fi
+	fi
+
 	# iso and img file - aka installers
-	for file in $(find /usr/obj/jenkins/workspace/${JOB_NAME}/usr/src/release -maxdepth 1 -name '*.iso' -o -name '*.img'); do
+	for file in $(find ${reldir} -maxdepth 1 -name '*.iso' -o -name '*.img'); do
 	    _dst_file="${_ISO_DIR}/${_INSTALLER_PREFIX}${file##*/}"
 	    cp -v ${file} ${_dst_file}
 	    sha256 ${_dst_file} >> ${_ISO_DIR}/CHECKSUMS.SHA256
@@ -90,12 +103,14 @@ copy_release() {
 	done
 	#
 	# archives - aka part of installers
-	for file in $(find /usr/obj/jenkins/workspace/${JOB_NAME}/usr/src/release -maxdepth 1 -name '*.txz' -or -name 'MANIFEST'); do
+	for file in $(find ${reldir} -maxdepth 1 -name '*.txz' -or -name 'MANIFEST'); do
 	    cp -v ${file} ${_TAR_DIR}
 	    sha256 ${file} >> ${_TAR_DIR}/CHECKSUMS.SHA256
 	    sha512 ${file} >> ${_TAR_DIR}/CHECKSUMS.SHA512
 	    gpg --sign -a --detach -u BB53388D3BD9892815CB9E30819B11A26FFD188D -o ${_TAR_DIR}/$(basename ${file}).asc ${file}
 	done
+
+	return 0
 }
 
 main() {
