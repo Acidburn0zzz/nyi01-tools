@@ -4,17 +4,12 @@ srcdir="/jenkins/src"
 noclean=0
 
 unmount_chroot() {
-	if mount | grep ${chrootdir}/dev >/dev/null; then
-		umount ${chrootdir}/dev
-	fi
-
-	if mount | grep ${chrootdir}/usr/src >/dev/null; then
-		umount ${chrootdir}/usr/src
-	fi
-
-	if mount | grep ${chrootdir}/usr/obj >/dev/null; then
-		umount ${chrootdir}/usr/obj
-	fi
+	# XXXOP hack ...
+	for mount_point in ${chrootdir}/{usr/obj/usr/src/amd64.amd64/release/efi,dev,usr/src,usr/obj}; do
+		if mount | grep ${mount_point} >/dev/null; then
+			umount -f ${mount_point}
+		fi
+	done
 }
 
 destroy_chroot() {
@@ -23,9 +18,13 @@ destroy_chroot() {
 	if [ -d ${chrootdir} ]; then
 		chflags -R noschg ${chrootdir}
 
-		t=$(ls ${chrootdir} | tail -n 1)
+		t=$(ls -A ${chrootdir} | tail -n 1)
 		if [ ${#t} -gt 0 ]; then
-			rm -rf ${chrootdir}/*
+			if [ -n ${chrootdir} ]; then
+				set +e
+				rm -rf ${chrootdir}/*
+				set -e
+			fi
 		fi
 	fi
 
