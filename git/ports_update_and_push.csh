@@ -10,7 +10,7 @@ set TEE_CMD="tee -a"
 set LOCK="${SOURCE_DIR}/ports-repo-lock"
 set DST_MAIL="robot@hardenedbsd.org"
 # CC_LIST members are the hardenedbsd-ports groups members
-set CC_LIST="trentnthompson@gmail.com johannes@perceivon.net bernard.spil@hardenedbsd.org shawn.webb@hardenedbsd.org franco.fichtner@hardenedbsd.org"
+set CC_LIST="trentnthompson@gmail.com  bernard.spil@hardenedbsd.org shawn.webb@hardenedbsd.org franco.fichtner@hardenedbsd.org"
 set ENABLE_MAIL="YES"
 
 setenv PATH "${PATH}:/usr/local/bin"
