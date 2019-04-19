@@ -1,4 +1,3 @@
 ca-01.installer.hardenedbsd.org
 dk-01.installer.hardenedbsd.org
-fourdots.com
 pub.allbsd.org
