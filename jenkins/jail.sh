@@ -65,4 +65,8 @@ populate_chroot() {
 		installworld \
 		distribution \
 		DESTDIR=${chrootdir}
+
+	chroot ${chrootdir} pw groupadd ntpd -g 123
+	chroot ${chrootdir} pw useradd ntpd -g ntpd -s /sbin/nologin \
+		-d /var/db/ntp
 }
